@@ -4,9 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메뉴 추천</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .categories button, .sub-categories button, #result button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h1>메뉴 추천 페이지</h1>
-    <p>여기에 메뉴 추천 내용이 들어갑니다.</p>
+    <div class="container">
+        <h1>메뉴 추천</h1>
+        <div id="categories">
+            <h2>어떤 종류의 음식을 원하세요?</h2>
+            <button onclick="selectCategory('korean')">한식</button>
+            <button onclick="selectCategory('chinese')">중식</button>
+            <button onclick="selectCategory('western')">양식</button>
+        </div>
+        <div id="sub-categories" style="display: none;"></div>
+        <div id="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        const menu = {
+            korean: {
+                name: '한식',
+                items: ['비빔밥', '김치찌개', '불고기']
+            },
+            chinese: {
+                name: '중식',
+                items: ['짜장면', '짬뽕', '탕수육']
+            },
+            western: {
+                name: '양식',
+                items: ['파스타', '피자', '스테이크']
+            }
+        };
+
+        function selectCategory(category) {
+            const subCategoriesDiv = document.getElementById('sub-categories');
+            const categoriesDiv = document.getElementById('categories');
+            const subCategoryData = menu[category];
+
+            let html = `<h2>${subCategoryData.name} 중에서 어떤 메뉴를 원하세요?</h2>`;
+            subCategoryData.items.forEach(item => {
+                html += `<button onclick="selectSubCategory('${item}')">${item}</button>`;
+            });
+
+            subCategoriesDiv.innerHTML = html;
+            categoriesDiv.style.display = 'none';
+            subCategoriesDiv.style.display = 'block';
+        }
+
+        function selectSubCategory(item) {
+            const subCategoriesDiv = document.getElementById('sub-categories');
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.innerHTML = `<p>오늘의 추천 메뉴는 '${item}' 입니다!</p><button onclick="reset()">다시 추천받기</button>`;
+            subCategoriesDiv.style.display = 'none';
+            resultDiv.style.display = 'block';
+        }
+
+        function reset() {
+            document.getElementById('categories').style.display = 'block';
+            document.getElementById('sub-categories').style.display = 'none';
+            document.getElementById('result').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
