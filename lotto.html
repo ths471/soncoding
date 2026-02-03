@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로또 번호 생성기</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .lotto-container {
+            border: 2px solid #ccc;
+            padding: 20px;
+            display: inline-block;
+            border-radius: 10px;
+        }
+        #lotto-numbers {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .number {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            margin: 0 5px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="lotto-container">
+        <h1>로또 번호 생성기</h1>
+        <div id="lotto-numbers">
+            <div class="number">?</div>
+            <div class="number">?</div>
+            <div class="number">?</div>
+            <div class="number">?</div>
+            <div class="number">?</div>
+            <div class="number">?</div>
+        </div>
+        <button onclick="generateNumbers()">번호 생성</button>
+    </div>
+
+    <script>
+        function generateNumbers() {
+            const numbersDiv = document.getElementById('lotto-numbers');
+            numbersDiv.innerHTML = ''; // Clear previous numbers
+            
+            const numbers = new Set();
+            while (numbers.size < 6) {
+                const randomNumber = Math.floor(Math.random() * 45) + 1;
+                numbers.add(randomNumber);
+            }
+            
+            const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
+            
+            sortedNumbers.forEach(number => {
+                const numberDiv = document.createElement('div');
+                numberDiv.className = 'number';
+                numberDiv.textContent = number;
+                // Add some color based on number range
+                if (number <= 10) {
+                    numberDiv.style.backgroundColor = '#fbe4e4'; // Light red
+                } else if (number <= 20) {
+                    numberDiv.style.backgroundColor = '#e4f5fb'; // Light blue
+                } else if (number <= 30) {
+                    numberDiv.style.backgroundColor = '#e4fbeb'; // Light green
+                } else if (number <= 40) {
+                    numberDiv.style.backgroundColor = '#fbf3e4'; // Light orange
+                } else {
+                    numberDiv.style.backgroundColor = '#f0e4fb'; // Light purple
+                }
+                numbersDiv.appendChild(numberDiv);
+            });
+        }
+    </script>
+</body>
+</html>
